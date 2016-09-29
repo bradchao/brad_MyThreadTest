@@ -1,5 +1,7 @@
 package brad.tw.mythreadtest;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,12 +10,14 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv;
+    private MyHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        handler = new MyHandler();
         tv = (TextView)findViewById(R.id.tv);
 
     }
@@ -43,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             for (int i=0; i<20; i++){
                 Log.d("brad", name + ":" + "i = " + i);
-                tv.setText(name + ":" + "i = " + i);
+
+                //tv.setText(name + ":" + "i = " + i);
+                handler.sendEmptyMessage(i);
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -66,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+        }
+    }
+
+    private class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            tv.setText("Hello, Brad:" + msg.what);
         }
     }
 
