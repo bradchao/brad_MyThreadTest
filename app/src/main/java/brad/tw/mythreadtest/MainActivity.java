@@ -16,7 +16,13 @@ public class MainActivity extends AppCompatActivity {
     public void test1(View v){
         MyThread mt1 = new MyThread("A");
         MyThread mt2 = new MyThread("B");
-        mt1.start(); mt2.start();
+
+        MyRunnable mr1 = new MyRunnable("C");
+        Thread tr1 = new Thread(mr1);
+
+        mt1.start(); mt2.start();tr1.start();
+
+
         //mt1.start();
 //        mt1.start();
 //        mt1.run();
@@ -39,5 +45,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private class MyRunnable implements Runnable {
+        String name;
+        MyRunnable(String name){this.name = name;}
+        @Override
+        public void run() {
+            for (int i=0; i<20; i++){
+                Log.d("brad", name + ":" + "i = " + i);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                }
+            }
+
+        }
+    }
 
 }
