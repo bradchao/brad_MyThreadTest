@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("brad", name + ":" + "i = " + i);
 
                 //tv.setText(name + ":" + "i = " + i);
-                handler.sendEmptyMessage(i);
+                Message mesg = new Message();
+                Bundle data = new Bundle();
+                data.putString("key",name + ":" + "i = " + i);
+                mesg.setData(data);
+                handler.sendMessage(mesg);
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -79,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            tv.setText("Hello, Brad:" + msg.what);
+
+            String mesg = msg.getData().getString("key");
+
+            tv.setText(mesg);
         }
     }
 
