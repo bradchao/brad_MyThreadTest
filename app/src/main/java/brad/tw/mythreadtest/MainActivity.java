@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tv;
     private MyHandler handler;
     private Timer timer;
+    private MyTask mt1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test2(View v){
-        MyTask mt1 = new MyTask();
+        mt1 = new MyTask();
         timer.schedule(mt1, 3*1000, 1*1000);
+    }
+
+    public void test3(View v){
+        if (mt1 != null){
+            mt1.cancel();
+        }
+    }
+
+    @Override
+    public void finish() {
+        timer.purge();
+        timer.cancel();
+        timer = null;
+
+        super.finish();
     }
 
     private class MyTask extends TimerTask {
